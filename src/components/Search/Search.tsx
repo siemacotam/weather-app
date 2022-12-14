@@ -71,7 +71,7 @@ export const Search = () => {
                   <InputAdornment position="end">
                     <Button variant="outlined" onClick={handleSearch}>
                       <Stack direction="row" alignItems="center" spacing={1}>
-                        <Typography>Szukaj</Typography>
+                        <Typography>Search</Typography>
                         <SearchIcon sx={{ cursor: "pointer" }} />
                       </Stack>
                     </Button>

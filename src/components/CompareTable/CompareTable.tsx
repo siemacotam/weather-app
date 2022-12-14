@@ -8,6 +8,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Stack,
 } from "@mui/material";
 import * as S from "./CompareTable.styled";
 import { useAppSelector } from "src/store/hooks";
@@ -22,56 +23,70 @@ export const CompareTable = () => {
     return null;
   }
 
-  const allignRight = (index: number) =>
-    index === tableHeaders.length - 1 ? "right" : "left";
-
-  const { feelslike, humidity, pressure } = searchedCity.currentConditions;
+  const { feelslike, humidity, pressure, windspeed, cloudcover } =
+    searchedCity.currentConditions;
 
   return (
     <Box p={1}>
       <Card variant="outlined">
         <CardContent>
-          <Typography fontWeight="bold">Comparison</Typography>
-          <TableContainer component={Card} variant="outlined">
-            <Table>
-              <TableHead>
-                <TableRow>
-                  {tableHeaders.map((cell, index) => (
-                    <S.StyledTableCell key={cell} align={allignRight(index)}>
-                      {cell}
-                    </S.StyledTableCell>
+          <Stack rowGap={2}>
+            <Typography fontWeight="bold" fontSize="1.2rem">
+              Comparison
+            </Typography>
+            <TableContainer component={Card} variant="outlined">
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    {tableHeaders.map((cell, index) => (
+                      <S.StyledTableCell key={cell}>{cell}</S.StyledTableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {data.map((city) => (
+                    <S.StyledTableRow key={city.resolvedAddress}>
+                      <S.StyledTableCell> {city.address} </S.StyledTableCell>
+                      <S.StyledTableCell>
+                        {compareTemperature(
+                          feelslike,
+                          city.currentConditions.feelslike
+                        )}
+                      </S.StyledTableCell>
+                      <S.StyledTableCell>
+                        {compareNumbers(
+                          humidity,
+                          city.currentConditions.humidity,
+                          "%"
+                        )}
+                      </S.StyledTableCell>
+                      <S.StyledTableCell>
+                        {compareNumbers(
+                          windspeed,
+                          city.currentConditions.windspeed,
+                          "km"
+                        )}
+                      </S.StyledTableCell>
+                      <S.StyledTableCell>
+                        {compareNumbers(
+                          cloudcover,
+                          city.currentConditions.cloudcover,
+                          "%"
+                        )}
+                      </S.StyledTableCell>
+                      <S.StyledTableCell>
+                        {compareNumbers(
+                          pressure,
+                          city.currentConditions.pressure,
+                          "mbar"
+                        )}
+                      </S.StyledTableCell>
+                    </S.StyledTableRow>
                   ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data.map((city) => (
-                  <S.StyledTableRow key={city.resolvedAddress}>
-                    <S.StyledTableCell> {city.address} </S.StyledTableCell>
-                    <S.StyledTableCell>
-                      {compareTemperature(
-                        feelslike,
-                        city.currentConditions.feelslike
-                      )}
-                    </S.StyledTableCell>
-                    <S.StyledTableCell>
-                      {compareNumbers(
-                        humidity,
-                        city.currentConditions.humidity,
-                        "%"
-                      )}
-                    </S.StyledTableCell>
-                    <S.StyledTableCell align="right">
-                      {compareNumbers(
-                        pressure,
-                        city.currentConditions.pressure,
-                        "mbar"
-                      )}
-                    </S.StyledTableCell>
-                  </S.StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Stack>
         </CardContent>
       </Card>
     </Box>

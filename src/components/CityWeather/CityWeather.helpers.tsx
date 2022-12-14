@@ -31,7 +31,7 @@ export const getWeatherValues = (
       tooltip: tooltipInfo.windspeed,
       label: "Windspeed",
       value: windspeed,
-      sufix: "%",
+      sufix: "km",
     },
   ];
 

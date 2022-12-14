@@ -17,7 +17,7 @@ export const NextDayWeather = ({ data }: NextDayWeatherProps): JSX.Element => {
   return (
     <Card variant="outlined" sx={{ height: "100%" }}>
       <CardContent>
-        <Stack rowGap={2}>
+        <Stack rowGap={1}>
           <Typography>
             {getDayFromEpoch(datetimeEpoch)}
             <Typography component="span" variant="caption" pl={1}>

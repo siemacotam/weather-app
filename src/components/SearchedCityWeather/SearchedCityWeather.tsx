@@ -1,14 +1,12 @@
 import { Card, CardContent, Grid, Stack, Typography } from "@mui/material";
-import { tooltipInfo } from "src/global";
-import { theme } from "src/theme";
 import { getWeatherValues } from "../CityWeather/CityWeather.helpers";
 import {
   SunHoursPanel,
   TemperaturePanel,
   NextDayWeather,
-  TooltipElement,
 } from "src/components";
 import { SearchedCityWeatherProps } from "./SearchedCityWeather.types";
+import { DetailsPanel } from "./DetailsPanel";
 
 export const SearchedCityWeather = ({
   city,
@@ -26,10 +24,6 @@ export const SearchedCityWeather = ({
       windspeed,
       sunrise,
       sunset,
-      moonphase,
-      cloudcover,
-      uvindex,
-      solarradiation,
     },
   } = city;
 
@@ -59,55 +53,10 @@ export const SearchedCityWeather = ({
                     </Grid>
                   </Stack>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                  <Card variant="outlined" sx={{ height: "100%" }}>
-                    <CardContent>
-                      <Stack rowGap={2}>
-                        <Typography fontWeight="bold">
-                          What can we expect ?
-                        </Typography>
-                        <Typography>{description}</Typography>
-                        <Card
-                          variant="outlined"
-                          sx={{ bgcolor: theme.palette.grey[100] }}
-                        >
-                          <CardContent>
-                            <Grid container spacing={1}>
-                              <Grid item xs={12} md={6}>
-                                <TooltipElement
-                                  title={tooltipInfo.moonphase}
-                                  label="Moonphase"
-                                />
-                                <Typography>{moonphase}</Typography>
-                              </Grid>
-                              <Grid item xs={12} md={6}>
-                                <TooltipElement
-                                  title={tooltipInfo.cloudcover}
-                                  label="Cloudcover"
-                                />
-                                <Typography>{cloudcover}%</Typography>
-                              </Grid>
-                              <Grid item xs={12} md={6}>
-                                <TooltipElement
-                                  title={tooltipInfo.uvindex}
-                                  label="UV index"
-                                />
-                                <Typography>{uvindex}</Typography>
-                              </Grid>
-                              <Grid item xs={12} md={6}>
-                                <TooltipElement
-                                  title={tooltipInfo.solarradiation}
-                                  label="Solar radiation"
-                                />
-                                <Typography>{solarradiation} MJ/m² </Typography>
-                              </Grid>
-                            </Grid>
-                          </CardContent>
-                        </Card>
-                      </Stack>
-                    </CardContent>
-                  </Card>
-                </Grid>
+                <DetailsPanel
+                  data={city.currentConditions}
+                  description={description}
+                />
               </Grid>
             </Stack>
           </CardContent>
@@ -116,14 +65,18 @@ export const SearchedCityWeather = ({
       <Grid item xs={12}>
         <Card variant="outlined">
           <CardContent>
-            <Typography fontWeight="bold">Next days:</Typography>
-            <Grid container spacing={1}>
-              {nextFourDays.map((day) => (
-                <Grid key={day.datetime} item xs={12} md={3}>
-                  <NextDayWeather data={day} />
-                </Grid>
-              ))}
-            </Grid>
+            <Stack rowGap={2}>
+              <Typography fontWeight="bold" fontSize="1.2rem">
+                Next days:
+              </Typography>
+              <Grid container spacing={1}>
+                {nextFourDays.map((day) => (
+                  <Grid key={day.datetime} item xs={12} md={3}>
+                    <NextDayWeather data={day} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Stack>
           </CardContent>
         </Card>
       </Grid>
